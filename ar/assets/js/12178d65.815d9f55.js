@@ -1,0 +1,1 @@
+"use strict";(globalThis.webpackChunkramsha_doc=globalThis.webpackChunkramsha_doc||[]).push([[3189],{1450:a=>{a.exports=JSON.parse('{"metadata":{"permalink":"/ar/blog","page":1,"postsPerPage":10,"totalPages":1,"totalCount":4,"blogDescription":"Blog","blogTitle":"Blog"}}')}}]);
