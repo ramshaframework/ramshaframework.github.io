@@ -95,7 +95,7 @@ const config = {
           },
           // { to: '/blog', label: 'Blog', position: 'left' },
           {
-            href: 'https://github.com/sulaimanmugahed/Ramsha-Framework',
+            href: 'https://github.com/ramshaframework',
             label: 'GitHub',
             position: 'right',
           },
