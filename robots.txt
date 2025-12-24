@@ -1,0 +1,6 @@
+User-agent: *
+Allow: /
+​
+# Algolia-Crawler-Verif: 96E51EF5EC2E3296
+​
+Sitemap: https://ramshaframework.github.io/sitemap.xml
