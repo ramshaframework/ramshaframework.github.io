@@ -10,7 +10,7 @@
 
 
 <link rel="search" type="application/opensearchdescription+xml" title="Ramsha Framework" href="/ar/opensearch.xml"><link rel="stylesheet" href="/ar/assets/css/styles.638e3d02.css">
-<script src="/ar/assets/js/runtime~main.28480340.js" defer="defer"></script>
+<script src="/ar/assets/js/runtime~main.3c97b62a.js" defer="defer"></script>
 <script src="/ar/assets/js/main.d99ecd6e.js" defer="defer"></script>
 </head>
 <body class="navigation-with-keyboard">
@@ -23,7 +23,6 @@
 <p>Ramsha caching is designed to:</p>
 <ul>
 <li class="">Be <strong>modular</strong> and optional</li>
-<li class="">Work with <strong>Ramsha as a Service</strong>, <strong>External Apps</strong>, and <strong>Internal Apps</strong></li>
 <li class="">Decouple application logic from caching infrastructure</li>
 <li class="">Support both in-memory and distributed caching transparently</li>
 </ul>
@@ -121,6 +120,17 @@
 <hr>
 <h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="configuration">Configuration<a href="#configuration" class="hash-link" aria-label="إرتباط مُبـاشر بالعنوان Configuration" title="إرتباط مُبـاشر بالعنوان Configuration" translate="no">​</a></h2>
 <p>Caching behavior is configured using RamshaCachingOptions, typically during the Prepare phase of a module.</p>
-<p>These options control:</p></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="صفحة التوثيق"><a class="pagination-nav__link pagination-nav__link--prev" href="/ar/docs/category/caching"><div class="pagination-nav__sublabel">السابق</div><div class="pagination-nav__label">Caching</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/ar/docs/basics/caching/redis-caching"><div class="pagination-nav__sublabel">التالي</div><div class="pagination-nav__label">Redis Caching</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#default-caching-behavior" class="table-of-contents__link toc-highlight">Default Caching Behavior</a></li><li><a href="#hybrid-cache-concept" class="table-of-contents__link toc-highlight">Hybrid Cache Concept</a></li><li><a href="#cache-stampede-protection" class="table-of-contents__link toc-highlight">Cache Stampede Protection</a></li><li><a href="#cache-keys-and-tags" class="table-of-contents__link toc-highlight">Cache Keys and Tags</a><ul><li><a href="#cache-keys" class="table-of-contents__link toc-highlight">Cache Keys</a></li><li><a href="#cache-tags" class="table-of-contents__link toc-highlight">Cache Tags</a></li></ul></li><li><a href="#enabling-caching" class="table-of-contents__link toc-highlight">Enabling Caching</a></li><li><a href="#iramshacache-interface" class="table-of-contents__link toc-highlight">IRamshaCache Interface</a></li><li><a href="#common-cache-operations" class="table-of-contents__link toc-highlight">Common Cache Operations</a><ul><li><a href="#get-or-create" class="table-of-contents__link toc-highlight">Get or Create</a></li></ul></li><li><a href="#set-cache-entry" class="table-of-contents__link toc-highlight">Set Cache Entry</a><ul><li><a href="#remove-cache-entry" class="table-of-contents__link toc-highlight">Remove Cache Entry</a></li><li><a href="#remove-by-tag" class="table-of-contents__link toc-highlight">Remove by Tag</a></li></ul></li><li><a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Ramsha Framework.</div></div></div></footer></div>
+<p>These options control:</p>
+<ul>
+<li class="">Cache key limits</li>
+<li class="">Payload size limits</li>
+<li class="">Default expiration values</li>
+<li class="">Local vs distributed cache expiration</li>
+</ul>
+<hr>
+<h2 class="anchor anchorTargetStickyNavbar_Vzrq" id="continue-with">Continue with:<a href="#continue-with" class="hash-link" aria-label="إرتباط مُبـاشر بالعنوان Continue with:" title="إرتباط مُبـاشر بالعنوان Continue with:" translate="no">​</a></h2>
+<ul>
+<li class=""><strong><a class="" href="/ar/docs/basics/caching/redis-caching">Redis Caching</a></strong></li>
+</ul></div></article><nav class="docusaurus-mt-lg pagination-nav" aria-label="صفحة التوثيق"><a class="pagination-nav__link pagination-nav__link--prev" href="/ar/docs/category/caching"><div class="pagination-nav__sublabel">السابق</div><div class="pagination-nav__label">Caching</div></a><a class="pagination-nav__link pagination-nav__link--next" href="/ar/docs/basics/caching/redis-caching"><div class="pagination-nav__sublabel">التالي</div><div class="pagination-nav__label">Redis Caching</div></a></nav></div></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar theme-doc-toc-desktop"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#default-caching-behavior" class="table-of-contents__link toc-highlight">Default Caching Behavior</a></li><li><a href="#hybrid-cache-concept" class="table-of-contents__link toc-highlight">Hybrid Cache Concept</a></li><li><a href="#cache-stampede-protection" class="table-of-contents__link toc-highlight">Cache Stampede Protection</a></li><li><a href="#cache-keys-and-tags" class="table-of-contents__link toc-highlight">Cache Keys and Tags</a><ul><li><a href="#cache-keys" class="table-of-contents__link toc-highlight">Cache Keys</a></li><li><a href="#cache-tags" class="table-of-contents__link toc-highlight">Cache Tags</a></li></ul></li><li><a href="#enabling-caching" class="table-of-contents__link toc-highlight">Enabling Caching</a></li><li><a href="#iramshacache-interface" class="table-of-contents__link toc-highlight">IRamshaCache Interface</a></li><li><a href="#common-cache-operations" class="table-of-contents__link toc-highlight">Common Cache Operations</a><ul><li><a href="#get-or-create" class="table-of-contents__link toc-highlight">Get or Create</a></li></ul></li><li><a href="#set-cache-entry" class="table-of-contents__link toc-highlight">Set Cache Entry</a><ul><li><a href="#remove-cache-entry" class="table-of-contents__link toc-highlight">Remove Cache Entry</a></li><li><a href="#remove-by-tag" class="table-of-contents__link toc-highlight">Remove by Tag</a></li></ul></li><li><a href="#configuration" class="table-of-contents__link toc-highlight">Configuration</a></li><li><a href="#continue-with" class="table-of-contents__link toc-highlight">Continue with:</a></li></ul></div></div></div></div></main></div></div></div><footer class="theme-layout-footer footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2026 Ramsha Framework.</div></div></div></footer></div>
 </body>
 </html>
