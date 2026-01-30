@@ -1,5 +1,5 @@
 ---
-sidebar_position: 3
+sidebar_position: 2
 ---
 
 # Solution Templates
@@ -100,3 +100,45 @@ dotnet new ramsha-c-api -n MyProject
 dotnet new ramsha-c-api -n MyProject --useDatabase --dbProvider postgres
 
 ```
+
+### Creating a New Project with Visual Studio
+You can create a Ramsha project directly from **Visual Studio** using the installed templates.
+
+### Step 1: Choose the Ramsha Template
+
+![Filtering Ramsha templates in Visual Studio](pathname:///img/create-project-vs-1.jpg)
+---
+
+### Step 2: Configure Project Name and Location
+
+![Configure Project Name and Location](pathname:///img/create-project-vs-2.jpg)
+
+
+---
+
+### Step 3: Configure Ramsha Options
+
+In this step, you can customize how the Ramsha project is created:
+
+* **Use Database**
+
+  * Enable or disable database support
+* **Database Provider**
+
+  * Select the database provider (SQL Server, PostgreSQL, etc.)
+
+After configuring the options, click **Create**.
+
+![Configure Ramsha Options](pathname:///img/create-project-vs-3.jpg)
+
+Visual Studio will generate the project with the selected configuration.
+
+## Run the Application
+
+```bash
+dotnet run
+```
+Open your browser:
+* `http://localhost:<port>/scalar`
+
+Then you should see `Scalar-UI` docs for your application.

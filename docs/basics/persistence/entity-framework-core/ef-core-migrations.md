@@ -41,7 +41,7 @@ When you create migrations, the following flow occurs:
 
 #### 1. Create Your Design-Time Factory
 
-This class created by default if u create the project with [`Ramsha Soultions Templates`](../../architecture-and-templates/ramsha-templates/solution-templates), If not exist you can create new class:
+This class created by default if u create the project with [`Ramsha Soultions Templates`](../../../ramsha-tools-and-templates/solution-templates), If not exist you can create new class:
 
 ```csharp
 public class AppDbContextDesignTimeFactory 

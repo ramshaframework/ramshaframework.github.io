@@ -1,5 +1,5 @@
 ---
-sidebar_position: 2
+sidebar_position: 4
 ---
 
 # Clean Architecture
@@ -218,13 +218,6 @@ This layered architecture is ideal for:
 - Team-based development
 
 For smaller projects, simpler templates may be sufficient.
-
-
-## Next Steps
-
-* **[Solution Templates](./ramsha-templates/solution-templates)**
-
-
 
 
 

@@ -8,8 +8,8 @@ sidebar_position: 2
 
 Before using Ramsha Framework, make sure you have:
 
-* .NET SDK (Latest version)
-* Basic knowledge of ASP.NET Core and backend development
+- .NET 10 SDK (Latest version)
+- Basic knowledge of ASP.NET Core and backend development
 
 You can verify your .NET installation by running:
 
@@ -19,277 +19,134 @@ dotnet --version
 
 ---
 
-## Installing Ramsha Dependencies and tools
+## Getting Started with Ramsha (Recommended way)
 
-### Ramsha CLI Tool - Direct Download 
-You can download the latest version of the Ramsha CLI from the official GitHub releases page:
-[GitHub Releases](https://github.com/sulaimanmugahed/Ramsha-Framework/releases).
+The easiest way to start using Ramsha is by adding it **as a service**.
 
-After downloading:
+### Step 1: Register Ramsha Services
 
-Place the executable in a directory included in your system PATH or run it directly from its location
-
-
-Verify the installation:
-```bash
-ramsha --help
-```
-
-
-
-### Ramsha Templates Installation
-Ramsha project templates are distributed via NuGet.
-
-Install the templates using the following command:
-```bash
-dotnet new install Ramsha.Templates
-```
-Once installed, you can list available Ramsha templates:
-```bash
-dotnet new list
-```
-
-
----
-
-## Quick Start
-
-### Creating a New Project with Visual Studio
-You can create a Ramsha project directly from **Visual Studio** using the installed templates.
-
-### Step 1: Choose the Ramsha Template
-
-![Filtering Ramsha templates in Visual Studio](pathname:///img/create-project-vs-1.jpg)
----
-
-### Step 2: Configure Project Name and Location
-
-![Configure Project Name and Location](pathname:///img/create-project-vs-2.jpg)
-
-
----
-
-### Step 3: Configure Ramsha Options
-
-In this step, you can customize how the Ramsha project is created:
-
-* **Use Database**
-
-  * Enable or disable database support
-* **Database Provider**
-
-  * Select the database provider (SQL Server, PostgreSQL, etc.)
-
-After configuring the options, click **Create**.
-
-![Configure Ramsha Options](pathname:///img/create-project-vs-3.jpg)
-
-Visual Studio will generate the project with the selected configuration.
-
----
-
-### Creating a New Application with CLI
-You can also use the CLI tool to scaffold a new application:
-
-```bash
-ramsha new api MyApp -d
-```
-Or:
-```bash
-dotnet new ramsha-api -n MyApp --useDatabase
-```
-This creates a new ASP.NET Core Simple API project with the Ramsha framework.
-
----
-
-## Run the Application
-
-```bash
-dotnet run
-```
-Open your browser:
-* `http://localhost:<port>/scalar`
-
-Then you should see `Scalar-UI` docs for your application.
-
-
-## Ramsha Project Overview
-After creating a new project with Ramsha, you get a **modular ASP.NET Core application** that is ready to scale.
-
-## Startup Configuration
-
-Every Ramsha application starts by configuring the framework in `Program.cs`.  
-This is where the **startup module** is defined and the application is bootstrapped.
-
-### Fluent Startup Configuration
-
-For simple applications, Ramsha provides a fluent API to define the startup configuration directly:
-
-```csharp
-using Ramsha.AspNetCore.Mvc;
-
+In `Program.cs`, add Ramsha to the service container:
+```csharp {3-6}
 var builder = WebApplication.CreateBuilder(args);
 
-await builder.AddRamshaAsync(module =>
+builder.Services.AddRamsha(ramsha =>
 {
-    module
-        .Register(ctx =>
-        {
-            ctx.DependsOn<AspNetCoreMvcModule>();
-        })
-        .BuildServices(ctx =>
-        {
-        })
-        .OnInit(ctx =>
-        {
-        });
+    //ramsha.AddModule<SettingsModule>();
 });
-
-var app = builder.Build();
-
-await app.UseRamshaAsync();
-
-app.MapGet("/ping", () => Results.Ok("Pang !!"));
-
-await app.RunAsync();
 ```
-This approach keeps the startup code minimal and easy to read, making it ideal for small applications.
+In this step:
 
+- AddRamsha enables and Configure the Ramsha Engine
+- Modules are added using a clear and fluent API like:
+  `AddModule<SettingsModule>()`
+- All required services are registered automatically
 
 ---
 
+### Step 2: Initialize Ramsha
+After building the application, initialize Ramsha in the ASP.NET Core
+request pipeline:
 
-## Module Classes
-
-As the application grows, functionality is typically organized into **separate modules**.
-These modules are defined as classes by inheriting from `RamshaModule`.
-
-### Example: Application Module
-
-```csharp
-
-public class MyAppModule : RamshaModule
-{
-    public override void Register(RegisterContext context)
-    {
-        base.Register(context);
-
-        context.DependsOn<AspNetCoreMvcModule>();
-    }
-
-    public override void BuildServices(BuildServicesContext context)
-    {
-        base.BuildServices(context);
-
-        context.Services.AddScoped<MyCustomService>();
-    }
-}
-```
-Then inside program.cs:
-```csharp
-var builder = WebApplication.CreateBuilder(args);
-
-await builder.AddRamshaAsync<MyAppModule>();
-
+```csharp {3}
 var app = builder.Build();
 
-await app.UseRamshaAsync();
+app.UseRamsha();
 
 app.MapGet("/ping", () => Results.Ok("Pang !!"));
 
-await app.RunAsync();
+app.Run();
 ```
+Calling `UseRamsha`:
 
-Defining modules this way helps keep responsibilities separated and makes the application easier to maintain and extend.
-
---- 
-
-### Application Registration and Configuration (AddRamshaAsync)
-
-AddRamshaAsync is responsible for configuring the Ramsha framework and registering all required modules and services.
-
-```csharp
-await builder.AddRamshaAsync<MyAppModule>();
-```
-It runs before the application is built and prepares the dependency injection container.
-
-
-
-
-### Application Initialization (UseRamshaAsync) 
-
-After building the application, Ramsha must be initialized and integrated into the ASP.NET Core request pipeline.
-
-```csharp
-var app = builder.Build();
-await app.UseRamshaAsync();
-```
-Calling UseRamshaAsync is a critical step in the application startup process.  
-When this method is executed, Ramsha:
-* Initializes all registered modules 
-* Executes each module’s initialization logic 
-* Integrates required middleware into the ASP.NET Core pipeline 
-
-At this stage, all modules are fully constructed and ready to handle requests.
-
-
-
-
-:::note Want to learn more?
-This page covers the basic startup process.  
-For a deeper understanding of module phases, lifecycle hooks, and execution order,
-see the **[Modularity](./basics/architecture-and-templates/modularity)** documentation.
-:::
-
+- Initializes all registered Ramsha Hooks Contributors.
+- Integrates required middleware into the ASP.NET Core pipeline
 
 ---
 
 ## Built-in Modules Overview
 
-Ramsha comes with a set of **built-in modules** that provide common functionality out of the box.
-These modules can be plugged into your application simply by declaring a dependency.
+Ramsha comes with a set of **built-in modules** that provide common
+functionality out of the box. These modules can be plugged into your
+application simply by adding them as services or declaring as a
+dependency.
 
-One of the most commonly used built-in modules is the **Identity Module**.
-
----
+One of the most commonly used built-in modules is the **Identity
+Module**.
 
 ## Identity Module (Quick Introduction)
+The **Identity Module** provides a ready-to-use User/Role management
+system.
 
-The **Identity Module** provides a ready-to-use User/Role management system.
-
-
-By adding this module, your application immediately gains a complete identity system without additional setup.
+By adding this module, your application immediately gains a complete
+identity system without additional setup.
 
 
 ## Adding Identity Module to Your Application
 
-To enable the Identity Module, [install](./builtin-modules/identity/identity-module-installation) required packages, and add its modules classes as a dependencies in your startup configuration or application module.
+### Step 1: Install Required Packages
+To enable the Identity Module, install the following packages.
 
-```csharp
-await builder.AddRamshaAsync(module =>
-{
-    module.Register(ctx =>
-    {
-        ctx
-            .DependsOn<IdentityApplicationModule>()
-            .DependsOn<IdentityPersistenceModule>()
-            .DependsOn<EntityFrameworkCoreSqlServerModule>()
-            .DependsOn<IdentityApiModule>();
-    });
-});
+- `Ramsha.Identity` package Which includes all identity-related modules:
+
+```shell
+dotnet add package Ramsha.Identity
 ```
-Then, inside your DbContext:
-```csharp
-protected override void OnModelCreating(ModelBuilder modelBuilder)
+- Ramsha Entity Framework Core Provider
+Identity uses Entity Framework Core to persist data. Install one Ramsha
+EF provider based on your database. Example: SQL Server:
+
+```shell
+dotnet add package Ramsha.EntityFrameworkCore.SqlServer
+```
+- EF Core Tools (for Migrations) Required to create and apply database
+  migrations:
+
+```shell
+dotnet add package Microsoft.EntityFrameworkCore.Tools
+```
+
+### Step 2: Register Modules
+After installing the required packages, register the Identity and EF
+Core modules in Program.cs:
+
+```csharp {8-9}
+using Ramsha;
+
+var builder = WebApplication.CreateBuilder(args); 
+
+builder.Service.AddRamsha(ramsha =>
 {
-    // ..
-    modelBuilder.ConfigureIdentity();
+    ramsha
+    .AddIdentity() // or ramsha.AddModule<IdentityModule>()
+    .AddEFSqlServer(); // or ramsha.AddModule<EntityFrameworkCoreSqlServerModule>();
+});
+
+builder.Service.AddRamshaDbContext<AppDbContext>();
+
+var app = builder.Build();
+
+app.UseRamsha();
+
+app.Run();
+```
+
+Then, Configure identity inside your DbContext:
+
+```csharp {8}
+public class AppDbContext(DbContextOptions<AppDbContext> options)
+: RamshaEFDbContext<AppDbContext>(options)
+{
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.ConfigureIdentity();
+    }
 }
 ```
 Then run and apply migrations to add identity entities.
 
-
->That’s it — no additional configuration is required to get started.
+> That's it --- no additional configuration is required to get started.
 
 
 ## What You Get Out of the Box
@@ -304,7 +161,10 @@ Once the Identity Module is enabled:
 
 ## Ready-to-Use Identity APIs
 
-The `IdentityApiModule` exposes a set of APIs that can be accessed immediately.
+The `IdentityApiModule` exposes a set of APIs that can be accessed
+immediately, so open your browser and type
+`http://localhost:<port>/scalar`, Then you should see `Scalar-UI` docs
+for your Identity endpoints
 
 ![Identity APIs in Browser](pathname:///img/identity-apis-scalar.jpg)
 
@@ -322,7 +182,8 @@ For full installation instructions, configuration options, customization, and ad
 
 Continue with:
 
-- **[Modularity](./basics/architecture-and-templates/modularity)**
-- **[Clean Architecture](./basics/architecture-and-templates/clean-architecture)**
-- **[Solution Templates](./basics/architecture-and-templates/ramsha-templates/solution-templates)**
+- **[Ramsha Engine](./basics/architecture/ramsha-engine)**
+- **[Modularity](./basics/architecture/modularity)**
+- **[Ramsha Hooks](./basics/architecture/ramsha-hooks)**
+- **[Ramsha Tools & Templates](./ramsha-tools-and-templates/installation)**
 
